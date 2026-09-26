@@ -1,7 +1,67 @@
 tasks = []
 
+
+def add_task():
+    title = input("Enter task: ")
+    priority = input("Enter priority (High/Medium/Low): ")
+
+    task = {
+        "title": title,
+        "priority": priority,
+        "completed": False
+    }
+
+    tasks.append(task)
+    print("Task added successfully!")
+
+
+def view_tasks():
+    if not tasks:
+        print("No tasks available.")
+        return
+
+    print("\n--- Task List ---")
+
+    for i, task in enumerate(tasks, start=1):
+        status = "Completed" if task["completed"] else "Pending"
+
+        print(f"{i}. {task['title']}")
+        print(f"   Priority: {task['priority']}")
+        print(f"   Status: {status}")
+
+
+def complete_task():
+    view_tasks()
+
+    if not tasks:
+        return
+
+    number = int(input("Enter task number to mark as completed: "))
+
+    if 1 <= number <= len(tasks):
+        tasks[number - 1]["completed"] = True
+        print("Task marked as completed!")
+    else:
+        print("Invalid task number.")
+
+
+def delete_task():
+    view_tasks()
+
+    if not tasks:
+        return
+
+    number = int(input("Enter task number to delete: "))
+
+    if 1 <= number <= len(tasks):
+        tasks.pop(number - 1)
+        print("Task deleted successfully!")
+    else:
+        print("Invalid task number.")
+
+
 while True:
-    print("\n--- Student Task Manager ---")
+    print("\n===== STUDENT TASK MANAGER =====")
     print("1. Add Task")
     print("2. View Tasks")
     print("3. Complete Task")
@@ -11,37 +71,20 @@ while True:
     choice = input("Enter your choice: ")
 
     if choice == "1":
-        task = input("Enter task: ")
-        tasks.append({"task": task, "done": False})
-        print("Task added successfully!")
+        add_task()
 
     elif choice == "2":
-        if not tasks:
-            print("No tasks available.")
-        else:
-            for i, item in enumerate(tasks, 1):
-                status = "Completed" if item["done"] else "Pending"
-                print(i, item["task"], "-", status)
+        view_tasks()
 
     elif choice == "3":
-        number = int(input("Enter task number: "))
-        if 1 <= number <= len(tasks):
-            tasks[number - 1]["done"] = True
-            print("Task completed!")
-        else:
-            print("Invalid task number.")
+        complete_task()
 
     elif choice == "4":
-        number = int(input("Enter task number: "))
-        if 1 <= number <= len(tasks):
-            tasks.pop(number - 1)
-            print("Task deleted!")
-        else:
-            print("Invalid task number.")
+        delete_task()
 
     elif choice == "5":
-        print("Thank you!")
+        print("Thank you for using Student Task Manager!")
         break
 
     else:
-        print("Invalid choice.")
+        print("Invalid choice. Please try again.")
